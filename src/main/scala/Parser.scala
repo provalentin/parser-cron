@@ -1,8 +1,4 @@
-object Main extends App {
-  //val notParsedString = "*/15 0 1,5 * 1-5 /usr/bin/find"
-  //val notParsedString = args(0)
-  //println(s"Initial cron string: $notParsedString")
-  println("args: "+ args.toList)
+object Parser extends App {
   val notParsedString = if (args.length > 0) args(0) else "*/15 0 1,5 * 1-5 /usr/bin/find"
   //split into segments
   val segments = notParsedString.split(" ").toList
