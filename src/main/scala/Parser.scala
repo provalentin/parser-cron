@@ -21,86 +21,33 @@ object Parser extends App {
   //print command
   println(s"command       ${segments(5)}")
 
-
-  def parseMin(s: String): String = {
+  def parse(s: String, min: Int, max: Int): String = {
     s match {
       case "*" =>
-        (0 to 59).mkString(" ")
+        Range.inclusive(min, max).mkString(" ")
       case str if str.startsWith("*/") =>
-        Range(0, 60, str.substring(str.indexOf("/") + 1, str.length).toInt).mkString(" ")
+        Range(min, max, str.substring(str.indexOf("/") + 1, str.length).toInt).mkString(" ")
       case str if str.contains("-") =>
-        Range.inclusive(str.substring(0, str.indexOf("-")).toInt, str.substring(str.indexOf("-") + 1, str.length).toInt).mkString(" ")
+        Range.inclusive(str.substring(min, str.indexOf("-")).toInt, str.substring(str.indexOf("-") + 1, str.length).toInt).mkString(" ")
       case str if str.contains(",") =>
         str.split(",").mkString(" ")
-      case str if (str >= "0" && str <= "59") =>
+      case str if (str >= min.toString && str < max.toString) =>
         str
       case _ => "wrong string"
     }
   }
 
-  def parseHour(s: String): String = {
-    s match {
-      case "*" =>
-        (0 to 23).mkString(" ")
-      case str if str.startsWith("*/") =>
-        Range(0, 24, str.substring(str.indexOf("/") + 1, str.length).toInt).mkString(" ")
-      case str if str.contains("-") =>
-        Range.inclusive(str.substring(0, str.indexOf("-")).toInt, str.substring(str.indexOf("-") + 1, str.length).toInt).mkString(" ")
-      case str if str.contains(",") =>
-        str.split(",").mkString(" ")
-      case str if (str >= "0" && str <= "23") =>
-        str
-      case _ => "wrong string"
-    }
+  def parseMin(s: String): String =
+    parse(s, 0, 60)
 
-  }
+  def parseHour(s: String): String =
+    parse(s, 0, 24)
 
-  def parseDOM(s: String): String = {
-    s match {
-      case "*" =>
-        (1 to 31).mkString(" ")
-      case str if str.startsWith("*/") =>
-        Range(1, 31, str.substring(str.indexOf("/") + 1, str.length).toInt).mkString(" ")
-      case str if str.contains("-") =>
-        Range.inclusive(str.substring(0, str.indexOf("-")).toInt, str.substring(str.indexOf("-") + 1, str.length).toInt).mkString(" ")
-      case str if str.contains(",") =>
-        str.split(",").mkString(" ")
-      case str if (str >= "1" && str <= "31") =>
-        str
-      case _ => "wrong string"
-    }
-  }
+  def parseDOM(s: String): String =
+    parse(s, 1, 31)
 
-  def parseMonth(s: String): String = {
-    s match {
-      case "*" =>
-        (1 to 12).mkString(" ")
-      case str if str.startsWith("*/") =>
-        Range(1, 12, str.substring(str.indexOf("/") + 1, str.length).toInt).mkString(" ")
-      case str if str.contains("-") =>
-        Range.inclusive(str.substring(0, str.indexOf("-")).toInt, str.substring(str.indexOf("-") + 1, str.length).toInt).mkString(" ")
-      case str if str.contains(",") =>
-        str.split(",").mkString(" ")
-      case str if (str >= "1" && str <= "12") =>
-        str
-      case _ => "wrong string"
-    }
-  }
-
-  def parseDOW(s: String): String = {
-    s match {
-      case "*" =>
-        (1 to 7).mkString(" ")
-      case str if str.startsWith("*/") =>
-        Range(1, 7, str.substring(str.indexOf("/") + 1, str.length).toInt).mkString(" ")
-      case str if str.contains("-") =>
-        Range.inclusive(str.substring(0, str.indexOf("-")).toInt, str.substring(str.indexOf("-") + 1, str.length).toInt).mkString(" ")
-      case str if str.contains(",") =>
-        str.split(",").mkString(" ")
-      case str if (str >= "1" && str <= "7") =>
-        str
-      case _ => "wrong string"
-    }
-  }
-
+  def parseMonth(s: String): String =
+    parse(s, 1, 12)
+  def parseDOW(s: String): String =
+    parse(s, 1, 7)
 }
